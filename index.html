@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#f7f9f5">
+  <title>Confirmación de correo · Nexo</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, Helvetica, sans-serif; color: #183a35; background: #f7f9f5; }
+    * { box-sizing: border-box; }
+    body { min-height: 100svh; margin: 0; display: grid; grid-template-rows: auto 1fr; }
+    header { width: min(100%, 620px); margin: 0 auto; padding: 35px 26px 0; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: #122e2a; }
+    .mark { width: 32px; height: 32px; border: 2px solid #1b473c; border-radius: 10px; display: grid; place-items: center; font-weight: 800; font-size: 20px; line-height: 1; transform: rotate(-7deg); }
+    .mark span { transform: rotate(7deg); }
+    .wordmark { font: 30px/1 Georgia, "Times New Roman", serif; letter-spacing: -.06em; }
+    main { width: min(100%, 620px); margin: auto; padding: 32px 20px 64px; }
+    .card { background: #fff; border: 1px solid #dce6d8; border-radius: 24px; box-shadow: 0 14px 50px rgba(19, 56, 47, .06); padding: clamp(30px, 6vw, 56px); }
+    .symbol { width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; background: #e8f3e5; color: #1a4b3e; font-size: 30px; font-weight: 600; margin-bottom: 30px; }
+    h1 { font: 400 clamp(32px, 6vw, 42px)/1.13 Georgia, "Times New Roman", serif; letter-spacing: -.035em; margin: 0 0 16px; }
+    p { color: #53655d; font-size: 16px; line-height: 1.65; margin: 0; max-width: 34ch; }
+    .rule { height: 1px; background: #e2e9df; margin: 32px 0 20px; }
+    .hint { font-size: 13px; color: #718078; }
+    body.error .symbol { background: #fff2ed; color: #9b4d39; }
+    @media (max-width: 480px) {
+      header { padding: 26px 22px 0; }
+      main { padding: 22px 16px 44px; }
+      .card { border-radius: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header><div class="brand" aria-label="Nexo"><span class="mark" aria-hidden="true"><span>N</span></span><span class="wordmark">nexo</span></div></header>
+  <main>
+    <section class="card" role="status" aria-live="polite">
+      <div class="symbol" id="symbol" aria-hidden="true">·</div>
+      <h1 id="title">Comprobando el enlace…</h1>
+      <p id="message">Un momento, por favor.</p>
+      <div class="rule" aria-hidden="true"></div>
+      <p class="hint" id="hint">Nexo · aplicación móvil</p>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var state = new URLSearchParams(window.location.search).get('estado');
+      var success = state === 'confirmada';
+      document.body.classList.toggle('error', !success);
+      document.getElementById('symbol').textContent = success ? '✓' : '!';
+      document.getElementById('title').textContent = success ? 'Cuenta confirmada' : 'No se pudo confirmar';
+      document.getElementById('message').textContent = success
+        ? 'Vuelve a la app de Nexo e inicia sesión con tu correo y contraseña.'
+        : 'El enlace puede haber caducado. Vuelve a Nexo y solicita un nuevo correo de confirmación.';
+      document.getElementById('hint').textContent = success
+        ? 'Ya puedes cerrar esta página.'
+        : 'Si acabas de registrarte, utiliza el enlace más reciente.';
+      document.title = (success ? 'Cuenta confirmada' : 'Enlace no válido') + ' · Nexo';
+      window.history.replaceState(null, '', window.location.pathname);
+    }());
+  </script>
+  <noscript>Activa JavaScript para ver el resultado de la confirmación.</noscript>
+</body>
+</html>
